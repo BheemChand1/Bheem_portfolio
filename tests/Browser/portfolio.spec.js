@@ -5,6 +5,7 @@ for (const width of [360, 390, 768, 1440, 1920]) {
         const errors = []; page.on('pageerror', error => errors.push(error.message));
         await page.goto('/');
         await expect(page.getByRole('heading', { level: 1 })).toContainText('Thoughtful code. Real-world impact.');
+        await expect(page.locator('.hero-socials')).toBeVisible();
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
         await page.screenshot({ path: `artifacts/home-${width}.png`, fullPage: true });
         await page.getByRole('button', { name: 'Switch to dark mode' }).click();

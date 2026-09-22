@@ -88,6 +88,27 @@ class PortfolioTest extends TestCase
         $this->get('/sitemap.xml')->assertOk()->assertSee('/projects/running-room-management');
     }
 
+    public function test_configured_social_links_render_as_accessible_icons(): void
+    {
+        $profile = Setting::get('profile');
+        $profile = array_replace($profile, [
+            'linkedin' => 'https://www.linkedin.com/in/example',
+            'github' => 'https://github.com/example',
+            'twitter' => 'https://twitter.com/example',
+            'show_linkedin' => true,
+            'show_github' => true,
+            'show_twitter' => true,
+        ]);
+        Setting::put('profile', $profile);
+
+        $this->get('/')
+            ->assertSee('class="social-links hero-socials"', false)
+            ->assertSee('aria-label="LinkedIn profile"', false)
+            ->assertSee('aria-label="Twitter profile"', false)
+            ->assertSee('aria-label="GitHub profile"', false)
+            ->assertSee('aria-label="Email bheemchand8126@gmail.com"', false);
+    }
+
     public function test_admin_access_requires_admin_not_just_authentication(): void
     {
         $this->get('/admin')->assertRedirect('/admin/login');

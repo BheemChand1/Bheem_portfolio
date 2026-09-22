@@ -37,15 +37,26 @@ class AdminController extends Controller
     {
         abort_unless(in_array($type, self::TYPES) && (! $content?->exists || $content->type === $type), 404);
         $data = $request->validate([
-            'title' => 'required|string|max:200', 'slug' => ['required', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'max:200', Rule::unique('contents')->ignore($content?->id)],
-            'body' => 'nullable|string|max:50000', 'sort_order' => 'required|integer|min:0|max:100000', 'published' => 'sometimes|boolean', 'featured' => 'sometimes|boolean',
-            'seo_title' => 'nullable|string|max:200', 'seo_description' => 'nullable|string|max:300',
+            'title' => 'required|string|max:200',
+            'slug' => ['required', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'max:200', Rule::unique('contents')->ignore($content?->id)],
+            'body' => 'nullable|string|max:50000',
+            'sort_order' => 'required|integer|min:0|max:100000',
+            'published' => 'sometimes|boolean',
+            'featured' => 'sometimes|boolean',
+            'seo_title' => 'nullable|string|max:200',
+            'seo_description' => 'nullable|string|max:300',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120|dimensions:max_width=6000,max_height=6000',
             'data' => 'nullable|array:organization,period,location,tags,category,url,github,image_alt,short_title,features',
-            'data.organization' => 'nullable|string|max:200', 'data.period' => 'nullable|string|max:100', 'data.location' => 'nullable|string|max:100',
-            'data.tags' => 'nullable|string|max:500', 'data.category' => 'nullable|string|max:100',
-            'data.url' => 'nullable|url:http,https|max:1000', 'data.github' => 'nullable|url:http,https|max:1000',
-            'data.image_alt' => 'nullable|string|max:255', 'data.short_title' => 'nullable|string|max:100', 'data.features' => 'nullable|string|max:5000',
+            'data.organization' => 'nullable|string|max:200',
+            'data.period' => 'nullable|string|max:100',
+            'data.location' => 'nullable|string|max:100',
+            'data.tags' => 'nullable|string|max:500',
+            'data.category' => 'nullable|string|max:100',
+            'data.url' => 'nullable|url:http,https|max:1000',
+            'data.github' => 'nullable|url:http,https|max:1000',
+            'data.image_alt' => 'nullable|string|max:255',
+            'data.short_title' => 'nullable|string|max:100',
+            'data.features' => 'nullable|string|max:5000',
         ]);
         unset($data['image']);
         $oldImage = $content?->image;
@@ -66,7 +77,7 @@ class AdminController extends Controller
             Storage::disk('public')->delete($oldImage);
         }
 
-        return redirect('/admin/content/'.$type)->with('status', 'Content saved.');
+        return redirect('/admin/content/' . $type)->with('status', 'Content saved.');
     }
 
     public function delete(string $type, Content $content)
@@ -110,17 +121,17 @@ class AdminController extends Controller
         foreach (['hero_intro', 'bio', 'story', 'availability', 'seo_description'] as $field) {
             $rules[$field] = 'nullable|string|max:5000';
         }
-        $rules += ['email' => 'required|email|max:255', 'phone' => 'nullable|regex:/^[+0-9 ()-]{5,30}$/', 'linkedin' => 'nullable|url:http,https|max:500', 'github' => 'nullable|url:http,https|max:500', 'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120', 'og_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120', 'resume' => 'nullable|file|mimes:pdf|max:10240'];
+        $rules += ['email' => 'required|email|max:255', 'phone' => 'nullable|regex:/^[+0-9 ()-]{5,30}$/', 'linkedin' => 'nullable|url:http,https|max:500', 'github' => 'nullable|url:http,https|max:500', 'twitter' => 'nullable|url:http,https|max:500', 'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120', 'og_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120', 'resume' => 'nullable|file|mimes:pdf|max:10240'];
         $data = $request->validate($rules);
         unset($data['image'], $data['og_image'], $data['resume']);
         $current = Setting::get('profile', []);
-        foreach (['show_phone', 'show_email', 'show_location', 'show_linkedin', 'show_github', 'blog_enabled', 'chat_enabled', 'resume_enabled'] as $key) {
+        foreach (['show_phone', 'show_email', 'show_location', 'show_linkedin', 'show_github', 'show_twitter', 'blog_enabled', 'chat_enabled', 'resume_enabled'] as $key) {
             $data[$key] = $request->boolean($key);
         }
         foreach (['image', 'og_image'] as $key) {
             if ($request->hasFile($key)) {
                 $data[$key] = $media->image($request->file($key));
-            } elseif ($request->boolean('remove_'.$key)) {
+            } elseif ($request->boolean('remove_' . $key)) {
                 $data[$key] = null;
             }
         }

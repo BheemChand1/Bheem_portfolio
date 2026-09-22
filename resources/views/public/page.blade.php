@@ -9,6 +9,7 @@
         <h1><span class="hero-name">Hi, I’m {{ $profile['name'] }}.</span>{{ $profile['hero_heading'] }}</h1>
         <p class="hero-intro">{{ $profile['hero_intro'] }}</p>
         <div class="hero-actions"><a class="button primary" href="/projects">Explore selected work <span>↗</span></a><a class="button ghost-button" href="/resume">View résumé <span>↓</span></a></div>
+        @include('partials.hero-socials')
         <div class="hero-proof" aria-label="Career highlights">
             <div><strong>3+</strong><span>years building<br>web applications</span></div>
             <div><strong>40%</strong><span>API response-time<br>improvement</span></div>

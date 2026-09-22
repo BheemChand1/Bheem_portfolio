@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'hero_intro' => 'I’m Bheem, a full stack developer building web applications, APIs, and enterprise dashboards with Laravel and React.',
             'bio' => 'Full Stack Developer with 3+ years of experience building web applications, REST APIs, and enterprise dashboards using PHP, Laravel, React.js, JavaScript, and MySQL. Experienced with OOP, MVC, database optimization, authentication, deployment, and enterprise solutions for Indian Railways.',
             'story' => 'My experience spans backend services, frontend integrations, and production deployments. At Dream Tech, I built CRUD applications and REST APIs. At Beatle Analytics, I work on Laravel and React applications, reporting dashboards, authentication, database optimization, and VPS deployments.',
-            'availability' => '', 'linkedin' => '', 'github' => '', 'show_linkedin' => false, 'show_github' => false,
+            'availability' => '', 'linkedin' => '', 'github' => '', 'twitter' => '', 'show_linkedin' => false, 'show_github' => false, 'show_twitter' => false,
             'blog_enabled' => false, 'chat_enabled' => true, 'resume_enabled' => true,
             'seo_title' => 'Bheem Chand — Full Stack Developer', 'seo_description' => 'Full stack developer in Dehradun. Explore Bheem Chand’s work with Laravel, React, REST APIs, and enterprise applications.',
             'projects_heading' => 'Built for the real world.', 'contact_heading' => 'Let’s build something meaningful.',
