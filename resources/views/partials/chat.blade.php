@@ -1,0 +1,9 @@
+<button class="chat-launch" aria-haspopup="dialog" aria-controls="chat-panel" aria-expanded="false"><span aria-hidden="true">✳</span> Ask about Bheem <span class="chat-dot"></span></button>
+<dialog id="chat-panel" aria-labelledby="chat-title"><div class="chat-head"><div><strong id="chat-title">{{ $copy['chat_heading'] }}</strong><small>Portfolio assistant · AI-powered</small></div><button class="icon-button chat-close" aria-label="Close chat">×</button></div>
+<div class="chat-body"><p class="chat-intro">{{ $copy['chat_intro'] }}</p>
+<p class="chat-privacy">{{ config('portfolio.ai.retention_days') > 0 ? 'Messages are retained for '.config('portfolio.ai.retention_days').' days.' : 'Chat transcripts are not stored on this website.' }} Messages are sent to an AI provider. Avoid sharing personal information. AI answers may be inaccurate.</p>
+<div class="chat-starters">@foreach(array_slice(array_filter(explode("
+", $copy['chat_starters'])), 0, 5) as $question)<button type="button">{{ trim($question) }}</button>@endforeach</div>
+<div id="chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
+@if(!config('portfolio.ai.key') || !config('portfolio.ai.model'))<p class="notice">Chat is currently unavailable. <a href="/contact">Contact Bheem directly ↗</a></p>@endif
+</div><form id="chat-form"><label class="sr-only" for="chat-message">Your question</label><input id="chat-message" name="message" maxlength="1000" placeholder="Ask a question…" required autocomplete="off"><button class="button primary" aria-label="Send question">↑</button></form><div class="chat-bottom"><button type="button" id="chat-reset">Reset conversation</button><div id="chat-feedback" hidden><button data-rating="helpful" aria-label="Answer was helpful">Helpful</button><button data-rating="unhelpful" aria-label="Answer was not helpful">Not helpful</button></div></div></dialog>
